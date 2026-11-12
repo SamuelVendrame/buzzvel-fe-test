@@ -1,26 +1,130 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Design tokens taken from the Figma file (variables + text styles).
+ * The comment next to each token is the name used in Figma.
+ */
+@theme {
+  /* Fonts (loaded with next/font in app/layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Colors: drop the default palette so only design colors are available */
+  --color-*: initial;
+  --color-white: #ffffff; /* backgrounnd-white / text-white-primary */
+  --color-cream: #f9f8f3; /* backgrounnd-light-yellow */
+  --color-butter: #fff1c2; /* backgrounnd-yellow */
+  --color-peach: #ffcb9f; /* background-orange */
+  --color-ink: #171b2c; /* text-primary / background-darkblue */
+  --color-ink-secondary: #656770; /* text-secondary */
+  --color-ink-tertiary: #6d7384; /* text-tertiary */
+  --color-on-dark-secondary: #e7e7ec; /* text-white-secondary */
+  --color-on-dark-tertiary: #9e9faa; /* text-white-tertiary */
+  --color-line: #dbdfeb; /* line-1 */
+  --color-primary: #3157f6; /* primary-blue */
+  --color-primary-light: #e2e8ff; /* primary-blue-light */
+  --color-orange: #ff704d; /* primary-orange */
+  --color-yellow: #ffee7e; /* secondary-yellow */
+  --color-yellow-dark: #e9d659; /* unnamed fill in the "How it works" icon */
+  /* Not in Figma: interaction and feedback states the design does not cover */
+  --color-primary-hover: #2445d8;
+  --color-yellow-hover: #ffe75a;
+  --color-danger: #c2341c;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Type scale: "Desktop/*" and "Mobile/*" text styles */
+  --text-h1: 4rem; /* Desktop/H1 64/70 */
+  --text-h1--line-height: calc(70 / 64);
+  --text-h1--letter-spacing: -0.025em;
+  --text-h1-mobile: 2.5rem; /* Mobile/H1 40/44 */
+  --text-h1-mobile--line-height: calc(44 / 40);
+  --text-h1-mobile--letter-spacing: -0.025em;
+  --text-h2: 3.5rem; /* Desktop/H2 56/64 */
+  --text-h2--line-height: calc(64 / 56);
+  --text-h2--letter-spacing: -0.025em;
+  --text-h2-mobile: 2.25rem; /* Mobile/H2 36/40 */
+  --text-h2-mobile--line-height: calc(40 / 36);
+  --text-h2-mobile--letter-spacing: -0.025em;
+  --text-h3: 3rem; /* Desktop/H3 48/56 */
+  --text-h3--line-height: calc(56 / 48);
+  --text-h3--letter-spacing: -0.025em;
+  --text-h3-mobile: 2rem; /* Mobile/H3 32/36 */
+  --text-h3-mobile--line-height: calc(36 / 32);
+  --text-h3-mobile--letter-spacing: -0.025em;
+  --text-h5: 1.25rem; /* Desktop/H5 20/32 */
+  --text-h5--line-height: calc(32 / 20);
+  --text-h5-mobile: 1.25rem; /* Mobile/H5 20/28 */
+  --text-h5-mobile--line-height: calc(28 / 20);
+  --text-quote: 1.875rem; /* Desktop/quotes 30/44 */
+  --text-quote--line-height: calc(44 / 30);
+  --text-quote--letter-spacing: -0.025em;
+  --text-quote-mobile: 1.25rem; /* Mobile/quotes 20/32 */
+  --text-quote-mobile--line-height: calc(32 / 20);
+  --text-subtitle-1: 1.125rem; /* Desktop/subtitle 1 18/28 */
+  --text-subtitle-1--line-height: calc(28 / 18);
+  --text-subtitle-1-mobile: 1rem; /* Mobile/subtitle 1 16/26 */
+  --text-subtitle-1-mobile--line-height: calc(26 / 16);
+  --text-subtitle-2: 1rem; /* Desktop/subtitle 2 16/28 */
+  --text-subtitle-2--line-height: calc(28 / 16);
+  --text-body: 0.875rem; /* body 1 and Mobile/subtitle 2 14/24 */
+  --text-body--line-height: calc(24 / 14);
+  --text-overline: 0.75rem; /* Overline 12/16, +1.44px */
+  --text-overline--line-height: calc(16 / 12);
+  --text-overline--letter-spacing: 0.12em;
+  --text-caption: 0.8125rem; /* footer copyright 13/19.5 */
+  --text-caption--line-height: 1.5;
+
+  /* Page gutter: 20px on the 402px mobile frame, 80px on the 1280px desktop frame,
+     interpolated in between so there is no jump at any breakpoint. */
+  --spacing-gutter: clamp(1.25rem, calc(6.834vw - 0.467rem), 5rem);
+
+  /* Shadows */
+  --shadow-float: 0 4px 12px rgb(0 0 0 / 0.1); /* hero floating cards */
+  --shadow-panel: 0 12px 16px rgb(23 27 44 / 0.04); /* contact form */
+  --shadow-photo: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 0 4px rgb(0 0 0 / 0.07); /* Shadow/Dark/M */
+
+  --animate-menu-in: menu-in 180ms ease-out;
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  /* One visible focus style for every interactive element. Sections with a dark
+     or blue background override --focus-ring so the outline keeps its contrast. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--color-primary));
+    outline-offset: 2px;
+  }
+
+  /* Anchor targets and motion */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
