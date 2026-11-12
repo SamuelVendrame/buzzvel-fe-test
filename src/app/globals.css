@@ -17,7 +17,9 @@
   --color-peach: #ffcb9f; /* background-orange */
   --color-ink: #171b2c; /* text-primary / background-darkblue */
   --color-ink-secondary: #656770; /* text-secondary */
-  --color-ink-tertiary: #6d7384; /* text-tertiary */
+  /* text-tertiary is #6d7384 in Figma: 4.45:1 on the cream background, just under the
+     4.5:1 of WCAG AA. One step darker passes and is not a visible change. */
+  --color-ink-tertiary: #6b7182;
   --color-on-dark-secondary: #e7e7ec; /* text-white-secondary */
   --color-on-dark-tertiary: #9e9faa; /* text-white-tertiary */
   --color-line: #dbdfeb; /* line-1 */

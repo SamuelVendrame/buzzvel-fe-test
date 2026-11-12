@@ -14,7 +14,8 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-primary text-white hover:bg-primary-hover",
   secondary: "border border-line bg-white text-ink hover:border-ink-tertiary",
   accent: "bg-yellow text-ink hover:bg-yellow-hover",
-  ghost: "text-on-dark-secondary hover:text-white",
+  // White instead of the #e7e7ec from Figma, which is 4.46:1 on the blue background (AA needs 4.5:1).
+  ghost: "text-white hover:bg-white/10",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
