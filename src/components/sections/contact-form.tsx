@@ -94,8 +94,8 @@ export function ContactForm({ submitLabel, onSubmit = submitContactForm }: Conta
       "aria-invalid": error ? true : undefined,
       "aria-describedby": error ? `contact-${field}-error` : undefined,
       className: cn(
-        // 16px text below md: iOS Safari zooms the page when a focused field uses a smaller font.
-        "w-full rounded-lg border bg-cream px-4 py-[11px] text-base/6 text-ink transition-colors placeholder:text-ink-tertiary md:text-body",
+        // 14px as in the design. Only iOS Safari gets 16px, because it zooms the page when a focused field uses a smaller font.
+        "w-full rounded-lg border bg-cream px-4 py-[11px] text-body text-ink transition-colors placeholder:text-ink-tertiary ios:text-base/6",
         error ? "border-danger" : "border-line hover:border-ink-tertiary",
         className,
       ),

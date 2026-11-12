@@ -28,10 +28,12 @@
   --color-orange: #ff704d; /* primary-orange */
   --color-yellow: #ffee7e; /* secondary-yellow */
   --color-yellow-dark: #e9d659; /* unnamed fill in the "How it works" icon */
-  /* Not in Figma: interaction and feedback states the design does not cover */
-  --color-primary-hover: #2445d8;
-  --color-yellow-hover: #ffe75a;
-  --color-danger: #c2341c;
+  /* States the design does not cover (hover, form errors). No new color values:
+     each one is a design color mixed with a little of the dark ink color. */
+  --color-primary-hover: color-mix(in srgb, var(--color-primary), var(--color-ink) 15%);
+  --color-yellow-hover: color-mix(in srgb, var(--color-yellow), var(--color-ink) 8%);
+  /* primary-orange alone is 2.7:1 on white, too light for text. This mix is 5.1:1. */
+  --color-danger: color-mix(in srgb, var(--color-orange), var(--color-ink) 35%);
 
   /* Type scale: "Desktop/*" and "Mobile/*" text styles */
   --text-h1: 4rem; /* Desktop/H1 64/70 */
@@ -93,6 +95,10 @@
     }
   }
 }
+
+/* iOS Safari and nothing else. Used for the one fix below that only iOS needs:
+   it zooms the page when a focused form field has a font size under 16px. */
+@custom-variant ios (@supports (-webkit-touch-callout: none));
 
 @layer base {
   html {
