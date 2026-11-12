@@ -70,7 +70,7 @@ function HeroVisual() {
           fill
           preload
           placeholder="blur"
-          sizes="(min-width: 768px) 500px, 100vw"
+          sizes="(min-width: 768px) 500px, calc(100vw - 56px)"
           className="object-cover"
         />
       </div>
