@@ -58,7 +58,8 @@ function StepIcon({ name }: { name: StepIconName }) {
     case "experience":
       return (
         <div aria-hidden="true" className="relative z-10 size-14">
-          <span className="absolute inset-0 rotate-12 rounded-lg bg-peach" />
+          {/* The mobile frame uses a lighter fill for this shape than the desktop frame. */}
+          <span className="absolute inset-0 rotate-12 rounded-lg bg-orange/15 lg:bg-peach" />
           <span className="absolute top-6 left-6 size-7 rounded-full bg-orange" />
         </div>
       );

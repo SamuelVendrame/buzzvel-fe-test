@@ -22,7 +22,7 @@ export function Community() {
             title={communitySection.title}
             gap="sm"
           />
-          <p className="mt-6 text-subtitle-1-mobile text-ink-secondary lg:mt-8 lg:text-subtitle-1">
+          <p className="mt-6 text-subtitle-1-mobile text-ink lg:mt-8 lg:text-subtitle-1 lg:text-ink-secondary">
             {communitySection.description}
           </p>
           <ButtonLink

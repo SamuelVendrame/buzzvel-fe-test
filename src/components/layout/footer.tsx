@@ -8,8 +8,8 @@ export function Footer() {
     // White focus outline: the default blue one would not be visible on the dark background.
     <footer className="bg-ink pt-15 pb-5 [--focus-ring:var(--color-white)] lg:pt-20 lg:pb-10">
       <Container>
-        <div className="grid grid-cols-2 gap-10 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8">
-          <div className="col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8">
+          <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <Logo variant="light" className="block w-fit rounded-sm" />
             <p className="mt-3 text-body text-on-dark-tertiary lg:max-w-60">{footer.tagline}</p>
           </div>
