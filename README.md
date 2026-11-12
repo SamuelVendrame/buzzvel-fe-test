@@ -105,21 +105,21 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
 
 ## Design ambiguities and the choices made
 
-| In the Figma file                                                                                                      | Choice                                                                                                                          |
-| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| The mobile contact form is in Portuguese, the rest of the page in English                                              | English copy from the desktop frame everywhere                                                                                  |
-| Desktop shows "Step 01" on all three steps; mobile shows 01, 02, 03                                                    | 01, 02, 03                                                                                                                      |
-| Step 2 description differs between frames ("who use" / "who actually use")                                             | Desktop copy                                                                                                                    |
-| No designs for hover, focus, the open menu or form error/success                                                       | Designed with the existing palette. One color was added for errors (`danger`), since no palette color is readable as error text |
-| Menu content on mobile is not shown                                                                                    | Same links as the desktop header, plus "Log in" and "Start learning"                                                            |
-| No tablet frame                                                                                                        | Described in "Responsive strategy" above                                                                                        |
-| On mobile the hero photo comes before the heading                                                                      | Same visual order, but the heading stays first in the DOM                                                                       |
-| The featured course and footer containers are 1136px wide, 16px past the 1120px content area                           | Aligned to the 1120px grid used by the other sections                                                                           |
-| Buttons are 52, 52.5 or 54px tall depending on the instance                                                            | 52px everywhere                                                                                                                 |
-| `text-tertiary` (#6D7384) on the cream background is 4.45:1; #E7E7EC on the blue background is 4.46:1 (AA needs 4.5:1) | Tertiary text is one step darker (#6B7182); text on the blue section is white                                                   |
-| Form fields use 14px text                                                                                              | 16px below 768px, because iOS Safari zooms the page when a focused field has a smaller font; 14px from 768px up                 |
-| Decorative shapes of the final CTA exist only in the desktop frame                                                     | Shown from 1024px up                                                                                                            |
-| Links lead to pages that are not part of the test                                                                      | They point to the matching section of the page, or to `#`                                                                       |
+| In the Figma file                                                                                                      | Choice                                                                                                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The mobile contact form is in Portuguese, the rest of the page in English                                              | English copy from the desktop frame everywhere                                                                                                                                                                                                  |
+| Desktop shows "Step 01" on all three steps; mobile shows 01, 02, 03                                                    | 01, 02, 03                                                                                                                                                                                                                                      |
+| Step 2 description differs between frames ("who use" / "who actually use")                                             | Desktop copy                                                                                                                                                                                                                                    |
+| No designs for hover, focus, the open menu or form error/success                                                       | Built from the design tokens only. Hover and error shades are a design color mixed with a little of the dark text color, so no color value outside the Figma palette is used. The "close" icon of the open menu is the one asset that was drawn |
+| Menu content on mobile is not shown                                                                                    | Same links as the desktop header, plus "Log in" and "Start learning"                                                                                                                                                                            |
+| No tablet frame                                                                                                        | Described in "Responsive strategy" above                                                                                                                                                                                                        |
+| On mobile the hero photo comes before the heading                                                                      | Same visual order, but the heading stays first in the DOM                                                                                                                                                                                       |
+| The featured course and footer containers are 1136px wide, 16px past the 1120px content area                           | Aligned to the 1120px grid used by the other sections                                                                                                                                                                                           |
+| Buttons are 52, 52.5 or 54px tall depending on the instance                                                            | 52px everywhere                                                                                                                                                                                                                                 |
+| `text-tertiary` (#6D7384) on the cream background is 4.45:1; #E7E7EC on the blue background is 4.46:1 (AA needs 4.5:1) | Tertiary text is one step darker (#6B7182); text on the blue section is white                                                                                                                                                                   |
+| Form fields use 14px text                                                                                              | 14px, as designed. iOS Safari zooms the page when a focused field has a font under 16px, so that browser alone gets 16px, through an `@supports` rule only iOS matches. Layout is unchanged (same 24px line height)                             |
+| Decorative shapes of the final CTA exist only in the desktop frame                                                     | Shown from 1024px up                                                                                                                                                                                                                            |
+| Links lead to pages that are not part of the test                                                                      | They point to the matching section of the page, or to `#`                                                                                                                                                                                       |
 
 ## Verification
 
@@ -136,7 +136,7 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
 
   Mobile
 
-  ![Lighthouse mobile: Performance 94, Accessibility 100, Best Practices 100, SEO 100](docs/lighthouse-mobile.png)
+  ![Lighthouse mobile: Performance 95, Accessibility 100, Best Practices 100, SEO 100](docs/lighthouse-mobile.png)
 
   Desktop
 
@@ -146,6 +146,8 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
 
 - No backend: the form submission is simulated, as described above.
 - Automated checks ran in Chrome only. Safari and Firefox were not covered by automation.
+- The iOS-only font size rule for form fields is in the generated CSS but was not tested on a
+  real iPhone.
 - The Lighthouse numbers are from a local server, not from a deployed URL.
 - Not pixel-perfect in the places listed in the table above (16px container overflow, button
   heights, contrast adjustments).
