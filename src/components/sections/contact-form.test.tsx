@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { ContactForm } from "./contact-form";
@@ -37,6 +37,42 @@ describe("ContactForm", () => {
     await user.click(submit);
 
     expect(email).toHaveFocus();
+  });
+
+  it("submits on the first click even when the field being edited is invalid", async () => {
+    const { user, name, email, submit } = setup();
+
+    await user.type(email, "ada");
+    await user.click(submit);
+
+    // The whole form was validated (not only the email on blur) and focus went to the first invalid field.
+    expect(name).toHaveAccessibleDescription("Please enter your name.");
+    expect(email).toHaveAccessibleDescription(/valid email/);
+    expect(name).toHaveFocus();
+  });
+
+  it("does not take focus from the field when the submit button is pressed", () => {
+    // In a browser, blurring the field here would show its error, move the button and
+    // lose the click. jsdom has no layout, so this checks the mechanism: fireEvent
+    // returns false when the event default was prevented.
+    const { submit } = setup();
+
+    expect(fireEvent.mouseDown(submit)).toBe(false);
+  });
+
+  it("sends trimmed values", async () => {
+    const { user, onSubmit, name, email, message, submit } = setup();
+
+    await user.type(name, "  Ada Lovelace ");
+    await user.type(email, " ada@example.com");
+    await user.type(message, "I would like to know more about team plans.  ");
+    await user.click(submit);
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      name: "Ada Lovelace",
+      email: "ada@example.com",
+      message: "I would like to know more about team plans.",
+    });
   });
 
   it("validates a field when the user leaves it", async () => {

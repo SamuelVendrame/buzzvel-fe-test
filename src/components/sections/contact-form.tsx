@@ -72,7 +72,11 @@ export function ContactForm({ submitLabel, onSubmit = submitContactForm }: Conta
 
     setStatus("submitting");
     try {
-      await onSubmit(values);
+      await onSubmit({
+        name: values.name.trim(),
+        email: values.email.trim(),
+        message: values.message.trim(),
+      });
       setValues(emptyContactForm);
       setStatus("success");
     } catch {
@@ -91,6 +95,8 @@ export function ContactForm({ submitLabel, onSubmit = submitContactForm }: Conta
       onChange: handleChange,
       onBlur: handleBlur,
       required: true,
+      // Typing during the request would be lost when the form resets on success.
+      readOnly: status === "submitting",
       "aria-invalid": error ? true : undefined,
       "aria-describedby": error ? `contact-${field}-error` : undefined,
       className: cn(
@@ -121,7 +127,7 @@ export function ContactForm({ submitLabel, onSubmit = submitContactForm }: Conta
         </Field>
         <Field field="message" label="Your question" error={errors.message}>
           <textarea
-            {...fieldProps("message", "block min-h-25 resize-y py-[13px] lg:min-h-30")}
+            {...fieldProps("message", "block min-h-25 resize-none py-[13px] lg:min-h-30")}
             rows={3}
             placeholder="Tell us how we can help..."
           />
@@ -132,6 +138,10 @@ export function ContactForm({ submitLabel, onSubmit = submitContactForm }: Conta
         <Button
           type="submit"
           aria-disabled={isSubmitting}
+          // Keep focus where it is while the button is pressed. Otherwise the field being
+          // edited would blur and validate between mousedown and mouseup, its error message
+          // would push this button down, and the click would land outside it.
+          onMouseDown={(event) => event.preventDefault()}
           className="w-full aria-disabled:opacity-70"
         >
           {isSubmitting ? "Sending…" : submitLabel}
