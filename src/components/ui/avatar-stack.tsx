@@ -33,6 +33,7 @@ export function AvatarStack({
           alt={avatar.alt}
           width={px}
           height={px}
+          sizes={`${px}px`}
           className={cn(
             "rounded-full border-2 bg-primary-light object-cover",
             sizeClassName,
