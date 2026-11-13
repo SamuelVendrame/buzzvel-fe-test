@@ -70,7 +70,7 @@ export function MobileMenu({ links, secondaryAction, primaryAction }: MobileMenu
         aria-expanded={isOpen}
         aria-controls={panelId}
         onClick={() => setIsOpen((open) => !open)}
-        className="-mr-1.5 flex size-9 items-center justify-center rounded-lg"
+        className="flex size-9 items-center justify-center rounded-lg"
       >
         <Image src={isOpen ? closeIcon : menuIcon} alt="" width={24} height={24} />
       </button>

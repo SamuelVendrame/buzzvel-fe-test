@@ -31,7 +31,8 @@ export function Hero() {
               {hero.secondaryAction.label}
             </ButtonLink>
           </div>
-          <div className="mt-8 flex items-center justify-center gap-3 sm:justify-start">
+          {/* 30px on mobile: in the Figma frame the box around the two stacked buttons is 2px shorter than they are. */}
+          <div className="mt-[30px] flex items-center justify-center gap-3 sm:mt-8 sm:justify-start">
             <AvatarStack avatars={learnerAvatars.slice(0, 3)} />
             <p className="text-body text-ink-secondary">
               <strong className="font-bold text-ink">{hero.trust.highlight}</strong>{" "}

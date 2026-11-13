@@ -15,7 +15,7 @@ export function FeaturedCourse() {
       // White focus outline: the default blue one would not be visible on this background.
       className="bg-primary py-15 [--focus-ring:var(--color-white)] lg:py-25"
     >
-      <Container className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-15">
+      <Container wide className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-15">
         <div className="relative">
           <div className="relative h-70 overflow-hidden rounded-2xl md:h-90 lg:h-102">
             <Image

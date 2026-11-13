@@ -38,7 +38,8 @@ export function Contact() {
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-line bg-white px-5 py-6 shadow-panel lg:w-[48%] lg:max-w-135 lg:shrink-0 lg:p-10">
+        {/* 540px of 1120px on desktop. Padding is 1px under the Figma value because Figma draws the border inside it. */}
+        <div className="rounded-2xl border border-line bg-white px-[19px] py-[23px] shadow-panel lg:w-[48.2143%] lg:max-w-135 lg:shrink-0 lg:p-[39px]">
           <h3 className="font-display text-h5 font-bold text-ink">{form.title}</h3>
           <p className="mt-2 mb-6 text-body text-ink-secondary">{form.description}</p>
           <ContactForm submitLabel={form.submitLabel} />

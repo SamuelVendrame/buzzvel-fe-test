@@ -8,13 +8,16 @@ export function Testimonial() {
 
   return (
     <section aria-labelledby="testimonial-title" className="bg-white py-15 lg:py-25">
-      <Container className="flex flex-col gap-15 lg:flex-row lg:items-center lg:justify-between">
+      <Container
+        wide
+        className="flex flex-col gap-15 lg:flex-row lg:items-center lg:justify-between"
+      >
         <h2 id="testimonial-title" className="sr-only">
           What learners say
         </h2>
 
         <figure className="max-w-150 lg:flex-1">
-          <Image src={quoteIcon} alt="" width={24} height={22} />
+          <Image src={quoteIcon} alt="" width={24} height={22} className="block" />
           <blockquote className="mt-4 font-display text-quote-mobile font-semibold text-ink lg:text-quote">
             <p>{quote}</p>
           </blockquote>
@@ -35,7 +38,7 @@ export function Testimonial() {
           </figcaption>
         </figure>
 
-        <dl className="grid grid-cols-3 lg:w-100 lg:shrink-0 lg:grid-cols-1 lg:gap-5 lg:border-l lg:border-line lg:pl-12">
+        <dl className="grid grid-cols-3 lg:w-[401px] lg:shrink-0 lg:grid-cols-1 lg:gap-5 lg:border-l lg:border-line lg:pl-12">
           {stats.map((stat) => (
             // The number is shown first, but in the markup the label is the term and the number its value.
             <div key={stat.label} className="flex flex-col-reverse justify-end">

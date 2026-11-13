@@ -19,7 +19,7 @@ export function HowItWorks() {
         />
 
         {/* --step-gap is shared by the grid gap and the connector line between two steps. */}
-        <ol className="mt-10 grid [--step-gap:2.5rem] md:grid-cols-3 md:gap-(--step-gap) lg:mt-20 lg:py-7 lg:[--step-gap:5rem]">
+        <ol className="mt-10 grid [--step-gap:2.5rem] md:grid-cols-3 md:gap-(--step-gap) lg:mt-[77px] lg:py-7 lg:[--step-gap:5rem]">
           {steps.map((step, index) => (
             <li key={step.label} className="relative pb-19 last:pb-0 md:pb-0">
               {index < steps.length - 1 && (
@@ -32,10 +32,11 @@ export function HowItWorks() {
               <p className="mt-6 text-overline font-semibold text-ink-tertiary uppercase">
                 {step.label}
               </p>
-              <h3 className="mt-2 font-display text-h5-mobile font-bold text-ink lg:text-h5">
+              {/* The odd margins below are the Figma positions: its text boxes are 1 to 3px taller than the text. */}
+              <h3 className="mt-[9px] font-display text-h5-mobile font-bold text-ink lg:text-h5">
                 {step.title}
               </h3>
-              <p className="mt-3 text-body text-ink-secondary lg:text-subtitle-2">
+              <p className="mt-3.5 text-body text-ink-secondary lg:mt-[13px] lg:text-subtitle-2">
                 {step.description}
               </p>
             </li>

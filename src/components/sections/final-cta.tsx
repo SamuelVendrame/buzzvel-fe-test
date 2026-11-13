@@ -25,12 +25,18 @@ export function FinalCta() {
         >
           {finalCta.title}
         </h2>
-        <p className="mt-4 text-subtitle-1-mobile text-ink-secondary lg:text-subtitle-1">
+        {/* The margins below are the Figma positions: its text boxes here are 1 to 2px shorter than the text. */}
+        <p className="mt-4 text-subtitle-1-mobile text-ink-secondary lg:mt-3.5 lg:text-subtitle-1">
           {finalCta.description}
         </p>
-        <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <div className="mt-[38px] flex w-full flex-col gap-3 sm:w-auto sm:flex-row lg:mt-[39px]">
           <ButtonLink href={finalCta.primaryAction.href}>{finalCta.primaryAction.label}</ButtonLink>
-          <ButtonLink href={finalCta.secondaryAction.href} variant="secondary">
+          {/* In this section Figma keeps the bordered button as tall as the primary one. */}
+          <ButtonLink
+            href={finalCta.secondaryAction.href}
+            variant="secondary"
+            className="py-[13px]"
+          >
             {finalCta.secondaryAction.label}
           </ButtonLink>
         </div>

@@ -8,7 +8,8 @@ export function Footer() {
     // White focus outline: the default blue one would not be visible on the dark background.
     <footer className="bg-ink pt-15 pb-5 [--focus-ring:var(--color-white)] lg:pt-20 lg:pb-10">
       <Container>
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-8">
+        {/* Desktop values from Figma: one 166px row and a grid that is 1136px wide (16px into the right gutter). */}
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:-mr-4 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:grid-rows-[166px] lg:gap-8">
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <Logo variant="light" className="block w-fit rounded-sm" />
             <p className="mt-3 text-body text-on-dark-tertiary lg:max-w-60">{footer.tagline}</p>
@@ -35,7 +36,7 @@ export function Footer() {
           ))}
         </div>
 
-        <p className="mt-12 border-t border-ink-secondary pt-6 text-center text-caption text-on-dark-secondary lg:mt-16 lg:text-left">
+        <p className="mt-9 border-t border-ink-secondary pt-6 text-center text-caption text-on-dark-secondary lg:mt-16 lg:text-left">
           {footer.copyright}
         </p>
       </Container>
