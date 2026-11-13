@@ -25,6 +25,13 @@ npm test           # Vitest + Testing Library (25 tests)
 npm run format     # Prettier, with Tailwind class sorting
 ```
 
+Component stories:
+
+```bash
+npm run storybook        # Storybook at http://localhost:6006
+npm run build-storybook  # static build in storybook-static/
+```
+
 When deploying outside Vercel, set `NEXT_PUBLIC_SITE_URL` to the public URL. Without it the
 canonical and Open Graph URLs fall back to `http://localhost:3000`. On Vercel the production
 domain is detected automatically.
@@ -37,12 +44,13 @@ src/
                   icon and Open Graph image
   assets/         images and icons exported from Figma
   components/
-    ui/           Button, Container, SectionHeading, AvatarStack
+    ui/           Button, Container, SectionHeading, AvatarStack (+ their stories)
     layout/       Header, MobileMenu, Footer, Logo
     sections/     one file per section of the page
   data/content.ts all copy, links and image references (local mock data)
   lib/            form validation, small helpers
   types/          types of the content
+.storybook/       Storybook configuration
 ```
 
 ## Technical decisions
@@ -90,8 +98,15 @@ on outside click, when a link is chosen and when the viewport reaches the deskto
 **Motion.** Only hover transitions, the menu entrance and smooth scrolling to anchors. All of them
 are switched off under `prefers-reduced-motion: reduce`.
 
+**Storybook.** 16 stories for `Button`, `SectionHeading`, `AvatarStack` and `ContactForm`
+(`*.stories.tsx` next to each component). The form stories run their interactions (empty submit,
+sent, failed) with play functions. Storybook runs on Vite while the app uses Turbopack, so it
+loads Tailwind through the Vite plugin; the fonts are declared once in `src/app/fonts.ts` and
+shared by both.
+
 **Dependencies.** No runtime dependency besides Next.js and React. Class names are joined by a
-six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Testing Library.
+six-line helper instead of a library. Dev dependencies: Prettier, Vitest, Testing Library and
+Storybook.
 
 ## Accessibility
 
@@ -104,27 +119,28 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
   the descriptions the designer left in the layer names). Avatars next to "Trusted by 24,000+
   learners", icons and background shapes are decorative and use `alt=""` / `aria-hidden`.
 - Form fields have visible labels; errors are linked with `aria-describedby` and `aria-invalid`.
-- Text contrast meets WCAG AA (see the two color adjustments below).
+- Colors are the exact Figma values. Two pairs of the design measure just under the 4.5:1 of
+  WCAG AA and are reported by Lighthouse (see the table below).
 
 ## Design ambiguities and the choices made
 
-| In the Figma file                                                                                                        | Choice                                                                                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The mobile contact form is in Portuguese, the rest of the page in English                                                | English copy from the desktop frame everywhere                                                                                                                                                                      |
-| Desktop shows "Step 01" on all three steps; mobile shows 01, 02, 03                                                      | 01, 02, 03                                                                                                                                                                                                          |
-| Step 2 description differs between frames ("who use" / "who actually use")                                               | Desktop copy                                                                                                                                                                                                        |
-| No designs for hover, focus, the open menu or form error/success                                                         | Built from the design tokens only. Hover and error shades are a design color mixed with a little of the dark text color, so no color value outside the Figma palette is used                                        |
-| Menu content on mobile is not shown                                                                                      | Same links as the desktop header, plus "Log in" and "Start learning"                                                                                                                                                |
-| No tablet frame                                                                                                          | Described in "Responsive strategy" above                                                                                                                                                                            |
-| No frame narrower than 402px                                                                                             | Same layout down to 320px. Below 380px the three statistics scale with the viewport, because at 40px they no longer fit side by side                                                                                |
-| On mobile the hero photo comes before the heading                                                                        | Same visual order, but the heading stays first in the DOM                                                                                                                                                           |
-| Three desktop containers (featured course, testimonial, footer links) are 1136px wide, 16px past the 1120px content area | Reproduced as designed: those three run 16px into the right gutter                                                                                                                                                  |
-| Buttons are 50, 52, 52.5 or 54px tall depending on the instance                                                          | Sizes come from padding: 52px, and 54px for the bordered variant, as in most instances. Two exceptions: the final CTA buttons are 52px (Figma 52.5) and "Browse all courses" on mobile is 52px (Figma 50)           |
-| Several text boxes have a fixed height 1 to 3px different from their text, which shifts what comes after them            | Followed where it moves an element (steps, final CTA, hero, footer). Not followed in the mobile category cards and the mobile featured course, which end up 3px and 6px taller                                      |
-| `text-tertiary` (#6D7384) on the cream background is 4.45:1; #E7E7EC on the blue background is 4.46:1 (AA needs 4.5:1)   | Tertiary text is one step darker (#6B7182); text on the blue section is white                                                                                                                                       |
-| Form fields use 14px text                                                                                                | 14px, as designed. iOS Safari zooms the page when a focused field has a font under 16px, so that browser alone gets 16px, through an `@supports` rule only iOS matches. Layout is unchanged (same 24px line height) |
-| Decorative shapes of the final CTA exist only in the desktop frame                                                       | Shown from 1024px up                                                                                                                                                                                                |
-| Links lead to pages that are not part of the test                                                                        | They point to the matching section of the page, or to `#`                                                                                                                                                           |
+| In the Figma file                                                                                                                | Choice                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The mobile contact form is in Portuguese, the rest of the page in English                                                        | English copy from the desktop frame everywhere                                                                                                                                                                                                  |
+| Desktop shows "Step 01" on all three steps; mobile shows 01, 02, 03                                                              | 01, 02, 03                                                                                                                                                                                                                                      |
+| Step 2 description differs between frames ("who use" / "who actually use")                                                       | Desktop copy                                                                                                                                                                                                                                    |
+| No designs for hover, focus, the open menu or form error/success                                                                 | Built from the design tokens only. Hover and error shades are a design color mixed with a little of the dark text color, so no color value outside the Figma palette is used                                                                    |
+| Menu content on mobile is not shown                                                                                              | Same links as the desktop header, plus "Log in" and "Start learning"                                                                                                                                                                            |
+| No tablet frame                                                                                                                  | Described in "Responsive strategy" above                                                                                                                                                                                                        |
+| No frame narrower than 402px                                                                                                     | Same layout down to 320px. Below 380px the three statistics scale with the viewport, because at 40px they no longer fit side by side                                                                                                            |
+| On mobile the hero photo comes before the heading                                                                                | Same visual order, but the heading stays first in the DOM                                                                                                                                                                                       |
+| Three desktop containers (featured course, testimonial, footer links) are 1136px wide, 16px past the 1120px content area         | Reproduced as designed: those three run 16px into the right gutter                                                                                                                                                                              |
+| Buttons are 50, 52, 52.5 or 54px tall depending on the instance                                                                  | Reproduced. Sizes come from padding (52px, and 54px with the border); the 52.5px buttons of the final CTA and the 50px "Browse all courses" of the mobile frame are set where they occur                                                        |
+| Several boxes have a fixed height 1 to 6px different from their content, which shifts what comes after them                      | Followed, so elements sit at the Figma coordinates. Where a value in the code looks odd (for example a 36.875px gap), a comment next to it says which Figma box it comes from                                                                   |
+| `text-tertiary` (#6D7384) on the cream background is 4.45:1 and #E7E7EC on the blue background is 4.46:1; WCAG AA asks for 4.5:1 | Kept as designed. It affects the step labels, one line of the contact card, the course tags on mobile and "Browse all courses", and it is why Lighthouse accessibility is 97 instead of 100. Fixing it is a one-step change to two color values |
+| Form fields use 14px text                                                                                                        | 14px, as designed. iOS Safari zooms the page when a focused field has a font under 16px, so that browser alone gets 16px, through an `@supports` rule only iOS matches. Layout is unchanged (same 24px line height)                             |
+| Decorative shapes of the final CTA exist only in the desktop frame                                                               | Shown from 1024px up                                                                                                                                                                                                                            |
+| Links lead to pages that are not part of the test                                                                                | They point to the matching section of the page, or to `#`                                                                                                                                                                                       |
 
 ## Verification
 
@@ -132,8 +148,8 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
   warnings.
 - Fidelity: the page was rendered in headless Chrome at 402px and 1280px and compared with the
   exported Figma frames, section by section (side-by-side screenshots and measured section
-  heights). Total page height differs from Figma by about 1px on desktop and 8px on mobile; the
-  mobile difference is in the two sections named in the table above.
+  heights). The page is as tall as the Figma frames (5691px at 1280px, 7799px at 402px) and every
+  section is within 1px of its Figma height.
 - Responsiveness: also checked from 320px to 2560px for overflow and broken layouts.
 - Interactions: open menu, form errors, success and failure states, hover and keyboard focus were
   exercised in headless Chrome, and the menu and form are covered by tests.
@@ -141,15 +157,17 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
   scripted browser scenarios with screenshots and video. It found, among smaller things, a submit
   click that could be lost, statistics overlapping at 320px and `npm run typecheck` failing on a
   fresh clone. All three are fixed and covered by a test or a re-measurement.
-- Lighthouse on the local production build (`npm run build && npm run start`):
+- Lighthouse on the local production build (`npm run build && npm run start`). Mobile
+  performance varied between 95 and 99 over four runs on the same machine; accessibility is 97
+  because of the two color pairs kept from the design:
 
   Mobile
 
-  ![Lighthouse mobile: Performance 99, Accessibility 100, Best Practices 100, SEO 100](docs/lighthouse-mobile.png)
+  ![Lighthouse mobile: Performance 96, Accessibility 97, Best Practices 100, SEO 100](docs/lighthouse-mobile.png)
 
   Desktop
 
-  ![Lighthouse desktop: Performance 100, Accessibility 100, Best Practices 100, SEO 100](docs/lighthouse-desktop.png)
+  ![Lighthouse desktop: Performance 100, Accessibility 97, Best Practices 100, SEO 100](docs/lighthouse-desktop.png)
 
 ## Left out and known limitations
 
@@ -158,10 +176,11 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
 - The iOS-only font size rule for form fields is in the generated CSS but was not tested on a
   real iPhone.
 - The Lighthouse numbers are from a local server, not from a deployed URL.
-- Not pixel-perfect in the places listed in the table above (two button heights, contrast
-  adjustments, two mobile sections 3px and 6px taller).
-- On 2x and 3x screens the hero and featured course photos are slightly soft: the source images
-  in the Figma file are 900×1100 and 700×500.
+- Text is rendered by the browser, not by Figma, so glyph widths differ by a fraction of a pixel
+  and long lines drift 1 to 2px by their end. Boxes, spacing and line breaks match.
+- On 2x and 3x screens the hero and featured course photos are slightly soft. The files in the
+  project are the originals stored in the Figma file (900×1100 and 700×500); there is no larger
+  version to use.
 - Without JavaScript the page still renders in full, but the mobile menu and the form validation
   do not work.
 - No dark mode, internationalisation or analytics: none of them is in the design.
@@ -170,7 +189,8 @@ six-line helper instead of a library. Dev dependencies: Prettier, Vitest and Tes
 
 ## Time spent
 
-About 3 hours of AI-assisted work: implementation, a QA pass and the fixes that came out of it.
+About 4 hours of AI-assisted work: implementation, a QA pass, the fixes that came out of it and
+the Storybook setup.
 My own review of the code and of the page before submitting comes on top of that.
 
 ## AI tools used and how the result was verified
@@ -186,6 +206,6 @@ My own review of the code and of the page before submitting comes on top of that
 The output was not accepted on trust. Everything in the "Verification" section was run on the
 final code: build, lint, type check and tests; side-by-side comparison with the Figma frames;
 checks at viewport widths from 320px to 2560px; interaction and keyboard checks; Lighthouse, whose
-first run flagged two contrast problems that were then fixed; and the QA pass described above,
+first run flagged the two contrast pairs of the design; and the QA pass described above,
 which was run by separate AI agents that had the brief and the Figma exports but not the
 reasoning behind the implementation.
