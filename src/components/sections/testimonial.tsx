@@ -40,7 +40,8 @@ export function Testimonial() {
             // The number is shown first, but in the markup the label is the term and the number its value.
             <div key={stat.label} className="flex flex-col-reverse justify-end">
               <dt className="mt-1 pr-4 text-body text-ink-tertiary lg:h-[21px]">{stat.label}</dt>
-              <dd className="font-display text-h1-mobile font-extrabold text-primary lg:text-h1">
+              {/* Below 380px the three numbers no longer fit side by side at 40px, so the size follows the viewport. */}
+              <dd className="font-display text-h1-mobile font-extrabold text-primary max-[380px]:text-[10.5vw] lg:text-h1">
                 {stat.value}
               </dd>
             </div>
