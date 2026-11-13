@@ -1,21 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { site } from "@/data/content";
 import { siteUrl } from "@/lib/site-url";
+import { fontVariables } from "./fonts";
 import "./globals.css";
-
-// next/font downloads the fonts at build time and self-hosts them: no request to Google at runtime and no layout shift.
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -43,7 +30,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakarta.variable} antialiased`}>
+    <html lang="en" className={`${fontVariables} antialiased`}>
       <body>
         <a
           href="#main"
