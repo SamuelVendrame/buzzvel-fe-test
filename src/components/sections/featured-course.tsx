@@ -45,7 +45,7 @@ export function FeaturedCourse() {
             {course.tags.map((tag) => (
               <li
                 key={tag}
-                className="rounded-lg border border-line px-3.5 py-1.5 text-body text-white"
+                className="rounded-lg border border-line px-3.5 py-1.5 text-body text-on-dark-secondary lg:text-white"
               >
                 {tag}
               </li>
