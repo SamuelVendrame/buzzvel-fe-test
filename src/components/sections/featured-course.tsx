@@ -13,10 +13,13 @@ export function FeaturedCourse() {
       id={sectionIds.featuredCourse}
       aria-labelledby="featured-course-title"
       // White focus outline: the default blue one would not be visible on this background.
-      className="bg-primary py-15 [--focus-ring:var(--color-white)] lg:py-25"
+      // Mobile values with fractions: in the Figma mobile frame the two grid rows are fixed at
+      // 282px and 445.75px while their content is 280px and 452px, centred. The image therefore
+      // sits 1px lower and the text block reaches 3.125px into the gap and the bottom padding.
+      className="bg-primary py-15 pb-[56.875px] [--focus-ring:var(--color-white)] lg:py-25"
     >
-      <Container wide className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-15">
-        <div className="relative">
+      <Container wide className="grid gap-[36.875px] lg:grid-cols-2 lg:items-center lg:gap-15">
+        <div className="relative my-px lg:my-0">
           <div className="relative h-70 overflow-hidden rounded-2xl md:h-90 lg:h-102">
             <Image
               src={course.image.src}
@@ -55,7 +58,12 @@ export function FeaturedCourse() {
             <ButtonLink href={course.primaryAction.href} variant="accent">
               {course.primaryAction.label}
             </ButtonLink>
-            <ButtonLink href={course.secondaryAction.href} variant="ghost">
+            {/* 50px tall on the mobile frame (2px less padding at the bottom), 52px on desktop. */}
+            <ButtonLink
+              href={course.secondaryAction.href}
+              variant="ghost"
+              className="pb-3 lg:pb-3.5"
+            >
               {course.secondaryAction.label}
               <Image
                 src={arrowIcon}

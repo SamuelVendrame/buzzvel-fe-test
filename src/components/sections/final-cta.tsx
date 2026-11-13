@@ -30,12 +30,14 @@ export function FinalCta() {
           {finalCta.description}
         </p>
         <div className="mt-[38px] flex w-full flex-col gap-3 sm:w-auto sm:flex-row lg:mt-[39px]">
-          <ButtonLink href={finalCta.primaryAction.href}>{finalCta.primaryAction.label}</ButtonLink>
-          {/* In this section Figma keeps the bordered button as tall as the primary one. */}
+          {/* In this section both buttons are 52.5px tall in Figma, bordered one included. */}
+          <ButtonLink href={finalCta.primaryAction.href} className="h-[52.5px]">
+            {finalCta.primaryAction.label}
+          </ButtonLink>
           <ButtonLink
             href={finalCta.secondaryAction.href}
             variant="secondary"
-            className="py-[13px]"
+            className="h-[52.5px]"
           >
             {finalCta.secondaryAction.label}
           </ButtonLink>

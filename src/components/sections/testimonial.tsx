@@ -21,12 +21,14 @@ export function Testimonial() {
           <blockquote className="mt-4 font-display text-quote-mobile font-semibold text-ink lg:text-quote">
             <p>{quote}</p>
           </blockquote>
-          <figcaption className="mt-8 flex items-center gap-4">
+          {/* lg:h-12: on desktop Figma sizes this row by the 48px avatar; the 52px text block overflows it by 2px on each side. */}
+          <figcaption className="mt-8 flex items-center gap-4 lg:h-12">
             <Image
               src={author.avatar.src}
               alt={author.avatar.alt}
               width={48}
               height={48}
+              sizes="48px"
               className="size-12 rounded-full bg-primary-light object-cover"
             />
             <div>

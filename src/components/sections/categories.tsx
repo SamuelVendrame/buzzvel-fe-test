@@ -47,7 +47,9 @@ function CategoryCard({ category, linkLabel }: CategoryCardProps) {
   return (
     <Link
       href={category.href}
-      className="group flex h-full min-h-50 flex-col justify-between rounded-2xl border border-line bg-white p-6 transition-[border-color,box-shadow] duration-200 hover:border-primary hover:shadow-float lg:min-h-65 lg:p-7"
+      // Fractional values are the Figma ones: the badge row is 46.5px tall, and on the mobile
+      // frame the card rows are fixed at 227.19px, 1.31px less than the card content.
+      className="group flex h-full min-h-50 flex-col justify-between rounded-2xl border border-line bg-white p-6 transition-[border-color,box-shadow] duration-200 hover:border-primary hover:shadow-float max-sm:pb-[22.69px] lg:min-h-65 lg:p-7"
     >
       <div>
         <span
@@ -56,7 +58,7 @@ function CategoryCard({ category, linkLabel }: CategoryCardProps) {
         >
           {category.number}
         </span>
-        <h3 className="mt-5 font-display text-h5-mobile font-bold text-ink lg:text-h5">
+        <h3 className="mt-[20.5px] font-display text-h5-mobile font-bold text-ink lg:text-h5">
           {category.title}
         </h3>
         <p className="mt-3 text-body text-ink-tertiary">{category.description}</p>
