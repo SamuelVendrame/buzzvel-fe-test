@@ -3,6 +3,8 @@
 Responsive landing page for an online course platform, built from the Figma file
 "Buzzvel FE - Test 2026" (frames **FE - Desktop** and **FE - Mobile**).
 
+**Live preview:** https://buzzvel-fe-test-five.vercel.app
+
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4
 
 ## Running the project
@@ -157,9 +159,9 @@ Storybook.
   scripted browser scenarios with screenshots and video. It found, among smaller things, a submit
   click that could be lost, statistics overlapping at 320px and `npm run typecheck` failing on a
   fresh clone. All three are fixed and covered by a test or a re-measurement.
-- Lighthouse on the local production build (`npm run build && npm run start`). Mobile
-  performance varied between 95 and 99 over four runs on the same machine; accessibility is 97
-  because of the two color pairs kept from the design:
+- Lighthouse 13 on the deployed preview (https://buzzvel-fe-test-five.vercel.app). Mobile
+  performance varied between 95 and 98 over four runs (desktop was 100 every time); accessibility
+  is 97 because of the two color pairs kept from the design:
 
   Mobile
 
@@ -175,7 +177,6 @@ Storybook.
 - Automated checks ran in Chrome only. Safari and Firefox were not covered by automation.
 - The iOS-only font size rule for form fields is in the generated CSS but was not tested on a
   real iPhone.
-- The Lighthouse numbers are from a local server, not from a deployed URL.
 - Text is rendered by the browser, not by Figma, so glyph widths differ by a fraction of a pixel
   and long lines drift 1 to 2px by their end. Boxes, spacing and line breaks match.
 - On 2x and 3x screens the hero and featured course photos are slightly soft. The files in the
