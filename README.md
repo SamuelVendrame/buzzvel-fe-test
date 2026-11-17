@@ -190,8 +190,8 @@ Storybook.
 
 ## Time spent
 
-About 4 hours of AI-assisted work: implementation, a QA pass, the fixes that came out of it and
-the Storybook setup.
+About 3 hours on 12 November, AI-assisted (see below): implementation, a QA pass, the fixes that
+came out of it and the Storybook setup.
 My own review of the code and of the page before submitting comes on top of that.
 
 ## AI tools used and how the result was verified
