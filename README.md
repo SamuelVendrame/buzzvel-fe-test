@@ -1,11 +1,30 @@
 # Buzzvel Front-End Test — Luma landing page
 
+[![CI](https://github.com/SamuelVendrame/buzzvel-fe-test/actions/workflows/ci.yml/badge.svg)](https://github.com/SamuelVendrame/buzzvel-fe-test/actions/workflows/ci.yml)
+
 Responsive landing page for an online course platform, built from the Figma file
 "Buzzvel FE - Test 2026" (frames **FE - Desktop** and **FE - Mobile**).
 
 **Live preview:** https://buzzvel-fe-test-five.vercel.app
 
 **Stack:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4
+
+## Requirements checklist
+
+| Requirement                                                | How it is met                                                                                                                                                             | Where                                                                                                                                                              |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Every section of the desktop and mobile frames             | All ten sections, from the header to the footer, at 1280px and 402px. Each section is within 1px of its Figma height                                                      | [sections/](src/components/sections), [layout/](src/components/layout)                                                                                             |
+| Fidelity to the design                                     | Colors, text styles, shadows and spacing are the Figma values, read from the file through the Figma MCP server and declared once as Tailwind tokens                       | [globals.css](src/app/globals.css)                                                                                                                                 |
+| Responsive on mobile, tablet and desktop                   | Both frames reproduced; the tablet range (768–1023px), which has no frame, is described under "Responsive strategy". Checked from 320px to 2560px                         | [Technical decisions](#technical-decisions)                                                                                                                        |
+| Reusable components with typed props, local data           | Shared UI components; all copy, links and images in one typed mock file, no backend or CMS                                                                                | [ui/](src/components/ui), [content.ts](src/data/content.ts), [types](src/types/content.ts)                                                                         |
+| Interactions                                               | Mobile menu (Escape, outside click, focus return); contact form with validation, error, success and failure states; hover and focus styles                                | [mobile-menu.tsx](src/components/layout/mobile-menu.tsx), [contact-form.tsx](src/components/sections/contact-form.tsx), [contact-form.ts](src/lib/contact-form.ts) |
+| Accessibility                                              | Semantic landmarks, skip link, keyboard navigation with visible focus, `alt` on every image, labelled fields, title, description and Open Graph metadata                  | [Accessibility](#accessibility), [layout.tsx](src/app/layout.tsx)                                                                                                  |
+| Performance                                                | `next/image` for every image, `next/font`, Server Components except the two stateful ones, `prefers-reduced-motion` respected. Lighthouse 93–98 on mobile, 100 on desktop | [Verification](#verification)                                                                                                                                      |
+| Automated test or Storybook                                | Both: 25 Vitest + Testing Library tests (validation, form, menu) and 16 Storybook stories                                                                                 | `*.test.ts(x)`, `*.stories.tsx`                                                                                                                                    |
+| "Less is more"                                             | No runtime dependency besides Next.js and React                                                                                                                           | [package.json](package.json)                                                                                                                                       |
+| Build, lint and type check clean                           | Run by CI on every push, together with the tests and the Prettier check                                                                                                   | [ci.yml](.github/workflows/ci.yml)                                                                                                                                 |
+| README with setup, decisions, limitations, time and AI use | Sections below                                                                                                                                                            | —                                                                                                                                                                  |
+| Bonus: Vercel preview and Lighthouse print                 | Live link above, prints under "Verification"                                                                                                                              | [Verification](#verification)                                                                                                                                      |
 
 ## Running the project
 
@@ -146,8 +165,8 @@ Storybook.
 
 ## Verification
 
-- `npm run build`, `npm run lint`, `npm run typecheck` and `npm test` pass with no errors or
-  warnings.
+- `npm run build`, `npm run lint`, `npm run typecheck`, `npm test` and `npm run format:check`
+  pass with no errors or warnings. GitHub Actions runs all of them on every push (badge at the top).
 - Fidelity: the page was rendered in headless Chrome at 402px and 1280px and compared with the
   exported Figma frames, section by section (side-by-side screenshots and measured section
   heights). The page is as tall as the Figma frames (5691px at 1280px, 7799px at 402px) and every
@@ -160,8 +179,9 @@ Storybook.
   click that could be lost, statistics overlapping at 320px and `npm run typecheck` failing on a
   fresh clone. All three are fixed and covered by a test or a re-measurement.
 - Lighthouse 13 on the deployed preview (https://buzzvel-fe-test-five.vercel.app). Mobile
-  performance varied between 95 and 98 over four runs (desktop was 100 every time); accessibility
-  is 97 because of the two color pairs kept from the design:
+  performance varied between 93 and 98 over five runs, since Lighthouse simulates a slow phone and
+  the score moves from run to run (desktop was 100 every time); accessibility is 97 because of the
+  two color pairs kept from the design:
 
   Mobile
 
